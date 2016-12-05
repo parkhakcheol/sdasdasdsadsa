@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe24.pickmetop.freeboard.repository.FreeboardMapper">
+	
+	<!-- 북마크 삭제 -->
+	<delete id="deleteBookmarkByFreeCd" parameterType="java.lang.String">
+		DELETE FROM 
+			tb_freeboard_bookmark 
+		WHERE 
+			freeboard_cd=#{freeboardCd};
+	</delete>
+	
+	<!-- 아이디로 북마크 검색 -->
+	<select id="selectBookmarkById" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT 
+			freeboard_cd
+		FROM 
+			tb_freeboard_bookmark
+		WHERE 
+			login_id = #{loginId} ;
+	</select>
+	
+	<!-- 북마크등록 -->
+	<insert id="bookmarkInsert" parameterType="com.cafe24.pickmetop.freeboard.model.FreeboardBookmarkVo">
+		INSERT INTO tb_freeboard_bookmark
+			(freeboard_bookmark_cd, freeboard_cd, login_id, freeboard_bookmark_regdate)
+		VALUES 
+			((select CONCAT('freeboard_bookmark_', LPAD(IFNULL(MAX(substring(freeboard_bookmark_cd ,22)),0)+1,4,'0')) from tb_freeboard_bookmark as fb),  
+			#{freeboardCd}, #{loginId} , NOW())
+	</insert>
+	<!-- 댓글수정 -->
+	<update id="updateFreeReply" parameterType="com.cafe24.pickmetop.freeboard.model.FreeboardReplyVo">
+		UPDATE 
+			tb_freeboard_reply
+		SET
+			reply_content=#{replyContent},
+			reply_regdate= NOW()
+		WHERE 
+			reply_cd = #{replyCd}
+		</update>
+	<!-- 게시글수정 -->
+	<update id="updateFreeContent" parameterType="com.cafe24.pickmetop.freeboard.model.FreeboardVo">
+		UPDATE
+			tb_freeboard
+		SET
+			freeboard_regdate=NOW(),
+			freeboard_title=#{freeboardTitle},
+			freeboard_content=#{freeboardContent},
+			freeboard_nick=#{freeboardNick},
+			freeboard_cate_cd=#{freeboardCateCd}
+		WHERE 
+			freeboard_cd = #{freeboardCd}
+		
+	</update>
+	<!-- 게시글삭제 -->
+	<delete id="deleteContent" parameterType="java.lang.String">
+		DELETE FROM 
+			tb_freeboard 
+		WHERE 
+			freeboard_cd=#{deleteContent}
+	</delete>
+	
+	<!-- 댓글삭제 -->
+	<delete id="deleteReply" parameterType="java.lang.String">
+		DELETE FROM 
+			tb_freeboard_reply 
+		WHERE 
+			reply_cd=#{replyCd}
+	</delete>
+
+	<!-- 댓글리스트 -->
+	<select id="selectReply"  resultType="com.cafe24.pickmetop.freeboard.model.FreeboardReplyVo">
+		SELECT 
+			reply_cd as replyCd, 
+			login_id as loginId, 
+			freeboard_cd as freeboardCd, 
+			reply_content as replyContent, 
+			login_nick as loginNick, 
+			reply_regdate as replyRegdate
+		FROM 
+			tb_freeboard_reply
+		ORDER BY
+			reply_regdate ASC
+			
+	</select>
+	
+	<!-- 카테고리 리스트 -->
+	<select id="selectCate" resultType="com.cafe24.pickmetop.freeboard.model.FreeboardCategoryVo">
+		SELECT 
+			freeboard_cate_cd as freeboardCateCd, 
+			category_keyword as categoryKeyword
+		FROM 
+			tb_freeboard_category
+	</select>
+	
+	<!-- 게시글입력 -->
+	<insert id="freeboardInsert" parameterType="com.cafe24.pickmetop.freeboard.model.FreeboardVo">
+		INSERT INTO tb_freeboard
+			(freeboard_cd, login_id, freeboard_regdate, freeboard_title, freeboard_content, freeboard_nick, freeboard_cate_cd)
+		VALUES  
+			((select  CONCAT('freeboard_', LPAD(IFNULL(MAX(substring(freeboard_cd ,11)),0)+1,4,'0')) from tb_freeboard as fb),
+			 #{loginId}, NOW(),#{freeboardTitle}, #{freeboardContent},#{freeboardNick} ,#{freeboardCateCd})
+	</insert>
+	
+	<!--페이징을 위한  전체개수 -->
+	<select id="selectTotalCount" parameterType="java.util.Map" resultType="Integer">
+		SELECT 
+			COUNT(freeboard_cd)
+		FROM 
+			tb_freeboard
+		<if test=' boardSearch != null and boardSearch != "" or cate != null and cate != ""'>
+		WHERE
+		</if>
+		<if test=' boardSearch != null and boardSearch != "" '>
+			(freeboard_content like CONCAT('%',#{boardSearch},'%')
+		OR
+			freeboard_title  like CONCAT('%',#{boardSearch},'%'))
+		</if>
+		<if test=' boardSearch != null and boardSearch != "" and cate != null and cate != ""'>
+		AND
+		</if>
+		<if test=' cate != null and cate != "" '>
+			freeboard_cate_cd = #{cate}
+		</if>
+	</select>
+	
+	
+	<!-- 게시판 리스트 -->
+	<select id="selectFreeboardList" resultType="com.cafe24.pickmetop.freeboard.model.FreeboardVo" parameterType="java.util.Map">
+		SELECT 
+			fb.freeboard_cd as freeboardCd ,
+			fb.login_id as loginId, 
+			fb.freeboard_regdate as freeboardRegdate, 
+			fb.freeboard_title as freeboardTitle,
+			fb.freeboard_content as freeboardContent,
+			fb.freeboard_nick as freeboardNick,
+			fb.freeboard_cate_cd as freeboardCateCd
+		FROM 
+			tb_freeboard as fb
+		<if test=' sessionId != null and sessionId != ""'>
+			,tb_freeboard_bookmark as bm
+		</if>
+		<if test=' boardSearch != null and boardSearch != "" or cate != null and cate != "" or sessionId != null and sessionId != ""'>
+		
+		WHERE
+		</if>
+		<if test=' boardSearch != null and boardSearch != "" '>
+			(freeboard_content like CONCAT('%',#{boardSearch},'%')
+		OR
+			freeboard_title  like CONCAT('%',#{boardSearch},'%'))
+		</if>
+		<if test=' boardSearch != null and boardSearch != "" and cate != null and cate != ""'>
+		AND
+		</if>
+		<if test=' cate != null and cate != "" '>
+			freeboard_cate_cd = #{cate}
+		</if>		
+		<if test=' sessionId != null and sessionId != ""'>
+			bm.freeboard_cd = fb.freeboard_cd
+				and 
+			bm.login_id = #{sessionId}
+		</if>
+		ORDER BY freeboard_regdate DESC
+		LIMIT #{pageHelp.startRow}, #{pageHelp.linePerPage}		
+	</select>
+	
+	
+	<!-- 댓글 입력 -->
+	<insert id="freeboardReplyInsert" parameterType="com.cafe24.pickmetop.freeboard.model.FreeboardReplyVo">
+		INSERT INTO tb_freeboard_reply
+			(reply_cd, login_id, freeboard_cd, reply_content, login_nick, reply_regdate)
+		VALUES 
+			((select  CONCAT('freeboard_reply_', LPAD(IFNULL(MAX(substring(reply_cd ,17)),0)+1,4,'0')) from tb_freeboard_reply as fbr),
+			 #{loginId}, #{freeboardCd}, #{replyContent}, #{loginNick}, NOW())
+	</insert>
+</mapper>

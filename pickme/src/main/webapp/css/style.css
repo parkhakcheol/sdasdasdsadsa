@@ -1,0 +1,42 @@
+@CHARSET "EUC-KR";
+body {
+	margin: 0px;
+}
+.mainmenu{
+	margin-bottom: 30px;
+} 
+.adminPage{
+	padding-top: 20px;
+	float: left;
+}
+.adminPage a{
+	color: gray;
+}
+.adminPage a:hover{
+	color: white;
+	text-decoration: none;
+}
+/*로그인 모달*/
+#loginModal {
+	font-family: 'Hanna', serif;
+	font-weight: bold;
+}
+/* footer관련 css*/
+.footer{
+	padding: 0px;
+	width: 100%;
+}
+.footer .text-center{
+	margin-top: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #222222;
+	color: #76919d;	
+}
+.navbar-brand{
+	padding: 0;
+}
+.navbar-fixed-bottom span{
+	color: #000000;
+}
+

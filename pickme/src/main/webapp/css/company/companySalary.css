@@ -1,0 +1,161 @@
+@CHARSET "EUC-KR";
+
+/*연봉정보 입력화면*/
+#companySalaryInsertForm{
+	float: left;
+    width: 65%;
+	padding: 30px 40px 20px 40px;
+}
+#companySalaryInsertForm .row{
+	padding : 0px 0px 20px 0px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#companySalaryInsertForm .col-xs-1{
+	padding: 10px 0px 0px 0px;
+}
+.insertBtn{
+	float: right;
+}
+
+.sidebanner{
+	float: right;
+	width: 34%;
+}
+.sidebanner .banner{
+	width: 100%;
+}
+.sidebanner .row{
+	background-color: rgba(255,255,255,0.9);
+	margin: 10px 0px 15px 0px;
+    padding: 5px;
+}
+
+/*연봉 리스트*/
+
+.jumbotron{
+	box-shadow: 5px 5px 5px 0px lightgray;
+	margin-top: 10px;
+	text-align: left;
+	color : #cc4f61;
+	/* background: url("/img/company/logo/header.jpg"); */
+	background-color: rgba(255,255,255,0.7);
+}
+.jumbotron h1{
+	border-bottom: 7px double #bd2c49;
+}
+.jumbotron strong{
+	color : #bd2c49;
+}
+
+.companySalaryList{
+	margin-top: 30px;
+}
+.searchbar{
+	margin-bottom: 10px;
+}
+.star{
+	margin-top: 15px;
+}
+.starrating{
+	position:absolute;
+	transform: translate(-50%, -50%);
+	float: left;
+	height: 20px;
+	overflow: hidden;
+}
+.list_companies {
+    box-sizing: border-box;
+}
+#mainContents{
+	float: left;
+    width: 65%;
+}
+article {
+    display: block;
+}
+.list_companies .section_wrap {
+	 background-color: rgba(255,255,255,0.9);
+	box-shadow: 5px 5px 5px 0px lightgray;
+	border-bottom: 1px solid #e6e6e6;
+	margin: 10px 10px 0px 0px;
+    border-top: none;
+}
+.section_wrap {
+}
+.content_ty3 {
+    position: relative;
+    padding: 17px 0 18px 14px;
+    box-sizing: border-box;
+}
+.content_ty3 .ty3_wrap {
+    width: 100%;
+    display: table;
+}
+.content_ty3 .ty3_wrap .content_wrap {
+    display: table-row;
+    position: relative;
+    min-height: 80px;
+}
+.content_col2_1, .content_col2_2, .content_col2_3, .content_col2_4 {
+    display: table-cell;
+    vertical-align: top;
+    min-height: 80px;
+    box-sizing: border-box;
+}
+.content_col2_2 {
+    width: 95px;
+    position: relative;
+    margin-right: 12px;
+}
+.content_col2_2 a img{
+	width: 95px;
+}
+.content_col2_3 {
+	font-size: 1.1em;
+	padding-left: 50px;
+    vertical-align: top;
+}
+.content_col2_3 a{
+    color: #333;
+}
+.content_col2_4 {
+	text-align: center;
+	font-size: 1.2em;
+    padding-top: 20px;
+}
+
+/*페이징*/
+.pager .active a{
+	background-color: #337ab7;
+	color: #fff;
+}
+.pager .active a:hover{
+	background-color: #337ab7;
+	color: #fff;
+}
+
+/*연봉정보 관리자 디테일*/
+.panel-heading{
+	border-bottom: 2px solid  black;
+}
+.salaryDetail{
+	padding: 10px 40px 0px 40px;
+}
+.salaryDetail .row{
+	margin-bottom: 20px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/*연봉정보 사용자*/
+.content{
+	float: left;
+	width: 60%;
+	margin: 0;
+}
+.panel-body .row{
+	border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+	padding-bottom: 15px;
+}
+#chart_div div{
+}
